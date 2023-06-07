@@ -1,0 +1,211 @@
+Every command has verb and noun in syntax
+Verbs -> get, set, remove
+Nouns ->
+
+Help Powershell commands 
+get-command
+get-verb
+get-command -verb get
+get-command -noun service
+get-service
+Powershell is not case-sensitive
+
+cls to clear string
+
+get-Eventlog -LogName Security -ComputerName
+
+if filtering for word with a space in it you have to use "" 
+
+you can use windows commands for powershell but cannot run powershell commands on windows
+check alias for other commands 
+
+key F5 runs entire line and F8 runs line section
+
+Get-Help Get-Process ### shows how to write a cmdlet and what it does ### add -Full to get everything 
+System.string = string
+update-help -Force -ErrorAction silentlycontinue (runs through ErrorAction and silently continues)
+
+get-help *log* looks for all commands with logs in them 
+get-help -Examples get-process
+get_help about_* shows all help files of cmdlets to get more information on what they do 
+get-help get-process
+
+
+Mandatory vs. Optional
+if a command is optional it means you DO NOT have to put it in the syntax of the powershell lines, you can tell if a parameter is optional if you see square brackets around them []
+if you don't mention the option it will default to what is in the get-help syntax by order 
+
+get-childitem -path c:\windows -filter *.exe -recurse -name ### get-childitem looks in the directory of c:\windows and finds the name of exectables 
+
+Alias commands 
+$Alias:dir list directory in list format ###sets dir as a name to  
+$Alias:ls list directories in list format, is the same as dir
+get-alias -Definition get-childitem ###shows all current alias you've made
+set-Alias edit notepad.exe ###set-Alias formats by <name> <command>
+get-alias -name edit ###sets the alias
+remove-item alias:edit ### how to remove an alias
+
+properties: information of the object 
+methods: what can the object do
+
+get-host ### gets version of powershell 
+
+Alias are not persistent throughout shells (if you close your session you could not use it on a new one)
+
+(Get-Process).ProcessName ### (Get-Process <processname>).prosessname()
+
+get-process | get-member
+where you can pull out properties and methods 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
