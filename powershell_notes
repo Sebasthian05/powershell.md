@@ -125,33 +125,121 @@ $array[4,0,1,2]
 3
 
 how to get help from arrays
+get-help *array*
+or
+get-help about_array
+
+jaggaed array is a nested array, an array within a array
+$jagedarray = "joe", "jim", "jan" (1, ('apple', 'pear') 3), "jay" ### anytihng with parantheses is an array
+$a = 1,2,3
+$a += @(4,5,6)  ### means array, += means appending to array
+$a += , @(7,8,9) ### the comma adds a nested array in the array mentioned 
+you can specify how many strings you went in an array with *
+EX 'BOOM' * 5 will print BOOM five times in an array
+
+$targetingArray = @(
+(35.73 , 51.33, "Terhran"),
+(39.90, 116.40, "Bejing"),
+(39.07, 125.81, "Pyongyang"),
+(33.51, 36.27, "Damascus")
+)
+
+for each ($line in $targetingArray) {if ($line[-1] -eq "Bejing'){ write-output $line } ]
+
+how to write a script block
+$myblock = { get-services | format-table name, service }
+& $myblock
+
+prints services in table format with only name and service
+
+$a = 1 
+$c = {1 + 1}
+$a += &$c
+
+$a = 3
+
+Sort
+get-childitem | sort-object ### sorts list in alphabetical order
+get-childitem | sort-object -descending ### sorts in descending order
+get-childitem | sort-object -property length -descending ###sorts object by length from highest to low
+sort is short for sort-object
+-property is just file size 
 
 
+Get-Service | Group-Object status ###groups based off status running/stopped
+Get-ChildItem | Group-Object ${_.length -lt -1kb} ###it is a pipeline variable, whatever is being passed through the pipeline (in this case the output of childitem and getting the length of files less than 1Kb)
+1, 3, 5, 8, 2, 10 | Sort-Object ###sorts by numerical order
+
+like and match
+-Like can use wildcards **
+-match is more for regex (pattern matching)
+-equal cannot use wildcards **
+
+Add Member ScriptMethod adds methods to the property
 
 
+foreach ($line in $targetingArray){
+    if ($line[-1] -eq 'Bejing'){ 
+        write-output $line 
+    } 
+}
 
 
+$myblock = { get-services | format-table name, service }
 
 
+$a = 1 
+$c = {1 + 1}
+$a += &$c
 
+Get-Service | Group-Object status ###groups based off status running/stopped
+Get-ChildItem | Group-Object ${_.length -lt -1kb} ###it is a pipeline variable, whatever is being passed through the pipeline (in this case the output of childitem and getting the length of files less than 1Kb)
+1, 3, 5, 8, 2, 10 | Sort-Object ###sorts by numerical order 
+'1', '3', "5", '8', "2", '10' | Sort-Object ###sorts by numerical order ???
 
+1..10 | Sort-Object -Property { Get-Random } ###creates a list 1-10 and sorts randomly 
+Get-Process | Select-Object -First 10 ###grabs first 10 process
+Get-Process | Format-Table name, id
+Get-Process | Select-Object name, id 
+Get-Process | Get-Member ### shows options for commands 
+get-Process | Select-Object name, id, Description ###runs commands from the get-member object
+Get-Process | Select-Object -ExpandProperty name ### Expands only the name
+Get-Service | Where-Object {$_.Status -eq 'running'} ### shows object 
 
+###you can create transcripts and .ps1 files from powershell
 
+Get-ChildItem *.txt | where-object {$_.Length -lt 100} ###
+Get-ChildItem *.dll | where-object {$_.Length -gt 100} ###
+Get-Process | where {$.name -like "*powershell*"} | Format-Table name, Description ###gives us a process where the name is like powershell
+Get-Process | where {$.name -eq "idle"} | Format-Table name, Description ###finds a process where the name matches idle equally
+1,2,3,1,2,3,1,2,3 | sort-object | Get-Unique ###sorts from least to greatest and grabs unique only variables """NOTE THAT YOU HAVE TO SORT BEFORE YOU GET UNIQUE"""
+Get-ChildItem | Measure-Object -Property length ### its Measuring how many items are in C:\Windows\system32
+Get-ChildItem | Measure-Object -Property length -Average -Maximum -Minimum -sum ### its Measuring how many items are in C:\Windows\system32 by -Average
+(Get-ChildItem).count###counts how many items are in the result 
 
+'i bet you all cant wait to graduate' > test.txt
+$before = Get-ChildItem
+'4' > test.txt
+$after = gci
+Compare-Object $before $after -Property length, name ###compares the length before and after changing the test.txt
 
+$MyTruck = New-Object object
+###add a property to a member
+Add-Member -MemberType NoteProperty -Name Color -Value Black -InputObject $MyTruck ### puts a noteproperty with the name color and the value black in $myTruck
+Add-Member -me NoteProperty -in $MyTruck -na Make -va Ford ###short-handed version that does the same above
+$MyTruck | Add-Member NoteProperty -Name Model -Value F150 ### adds property through pipeline
+Add-Member -MemberType ScriptMethod -in $MyTruck -na Drive -va { "going for a roadtrip" } ### how to add a method to an object
+$MyTruck | Add-Member scriptMethod -name Park -Value { "finding a spot" } ###same as above but with pipe
+$MyTruck | Add-Member scriptMethod stop { "coming to a stop" } ### same as above but no commands to specify name and value 
 
-
-
-
-
-
-
-
-
-
-
-
-
+#PSCustomObject
+$Marine = [PSCustomObject]@{
+    "FirstName" = "joe"
+    "LastName"  = "Schmukatelly"
+    "MilitaryRank" = "SSGT"
+    "MOS" = "1721"
+    "Position" = "CyberDefensiveOperator"
+    }
 
 
 
