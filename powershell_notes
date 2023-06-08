@@ -1,4 +1,4 @@
-Every command has verb and noun in syntax
+GetEvery command has verb and noun in syntax
 Verbs -> get, set, remove
 Nouns ->
 
@@ -39,7 +39,7 @@ get-childitem -path c:\windows -filter *.exe -recurse -name ### get-childitem lo
 
 Alias commands 
 $Alias:dir list directory in list format ###sets dir as a name to  
-$Alias:ls list directories in list format, is the same as dir
+-$Alias:ls list directories in list format, is the same as dir
 get-alias -Definition get-childitem ###shows all current alias you've made
 set-Alias edit notepad.exe ###set-Alias formats by <name> <command>
 get-alias -name edit ###sets the alias
@@ -56,19 +56,75 @@ Alias are not persistent throughout shells (if you close your session you could 
 
 get-process | get-member
 where you can pull out properties and methods 
+ 
+get-service | format-table Name, Status ### gets services andd formats it by name and status 
+
+Prorperties can be formatted by the format command EX: format-table Name, Status
+
+write-host doesn't put its output on the pipeline 
+write-output puts it output in a pipeline
+
+function
+{
+write-host "1"
+write-host "8"
+write-host "4"
+write-host "6"
+}
+
+Function
+{
+write-output "1"
+write-output "8"
+write-output "4"
+write-output "6"
+}
+
+Get-Variable
+$HOME
+
+in powershell you need the dollar sign in order to create variable
+$a = 10
+you can check if the variable is good by:
+
+get-variable a 
+a      10
+
+or 
+
+get-childitem variable:a
+
+to test if variable is there Test-Path variable:a ### test path give confirmation if a variable is assigned or not 
+True 
+
+single quotes will put the literal string of the words in them write-host 'hello $var' prints hello var
+double wuotes will account for variables in string
+
+to set a list of numbers do 
+$var = Get-Random -minimum 1 -maximum #
 
 
+Arrays 
+Arrays are listed by index
+(get-process)-getType()
+$proc = Get-Process
+to find how much is in an object .count or .length
+how to test for an array $<Array> -is [array]
+how to test for other items [int],[string]
+$array = 1..25 creates a list from 1 to 25 incrementing by one all the way up to 25
+$array2 = "Hello", "world", $, 10, (get-type)
+($array2[3]).GetType() shows what type the index specified is 
 
+$array[$array.count-1] last count
+(-4..10)[4]
+>> 0
+$array[4,0,1,2]
+5
+1
+2
+3
 
-
-
-
-
-
-
-
-
-
+how to get help from arrays
 
 
 
