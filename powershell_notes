@@ -184,6 +184,10 @@ foreach ($line in $targetingArray){
     } 
 }
 
+Random number pulling array  
+$ARRAY = "@( &{(Get-Random -Minimum -10 -Maximum 0)..(Get-Random -Minimum 1 -Maximum 20)} )"
+
+
 
 $myblock = { get-services | format-table name, service }
 
@@ -242,9 +246,274 @@ $Marine = [PSCustomObject]@{
     }
 
 
+$compinfo = Get-WmiObject win32_computerSystem
+$osinfo = Get-WmiObject win32_OperatingSystem
+$biosinfo = Get-WmiObject Win32_BIOS
+$diskinfo = Get-WmiObject win32_logicalDisk
+
+$myObject = New-Object psobject
+
+$myObject | Add-Member -MemberType NoteProperty -Name ComputerName -Value $compinfo.Name
+$myObject | Add-Member -MemberType NoteProperty -Name OperatingSystem -Value $osinfo.Caption
+$myObject | Add-Member -MemberType NoteProperty -Name Version -Value $osinfo.Version
+$myObject | Add-Member -MemberType NoteProperty -Name Manufacturer -Value $biosinfo.Manufacturer
+$myObject | Add-Member -MemberType NoteProperty -Name Disks -Value $diskinfo._path
+
+###psproviders allow you to interact with certain parts of the system through powershell
+
+new-psdrive -name HKU -psprovider registry -root -HKEY_USERS ###creates a psdriver in the 
+
+New-PSDrive -name Z -PSProvider FileSystem -Root \\live.sysinternals.com\tools
+start-service -name webclient ###SYSINTERNALS IN OS (temp file drive)
+
+Comparison operators
+-eq equal
+-lt less than
+-gt greater than
+-le less than or equal to
+-ge greater than or equal to
+-ne not equals
+-contains  
+-match regex expression
+-like both sides of the expression are identical
+-in returns true if values in collection
+-replace replaces a string pattern
+-is see if both objects are same type
+
+### IF VALUE EQ RETURNS TRUE, IF VALUE EQUALS ONLY ONE RETURNS VALUE ex: 1,2,3 -EQ 2 -> 2 REVERSE FOR NOT EQ (NE)
+
+### CONTAINS
+$FRUIT = 'APPLE', 'ORANGE', 'PEAR', 'TOMATO'
+$FRUIT -contains 'TOMATO' ->
+### YOU CAN USE [] TO TEST RANGE OF CHARACTERS [A-Z]INKY
+
+#Combo Compare
+$num = 5
+(($NUM -gt 1) -and ($num -lt 10)) ### -and compares two comparison operators 
+
+IF STATEMENT
+IF CONDITION IS MET EXECUTE CODE
+EX
+
+#IF
+
+$X = 11
+if($X -gt 10){"$X is larger than 10"}
+$Y = 4
+if ($Y -le 9) {
+    write-host "$Y is not equal to 9, in fact its smaller" -ForegroundColor grey
+}
+
+#IFELSE
+if("ABC" -eq "ABC"){
+    Write-Host "Example 1 - Condition satisfied" -ForegroundColor Green
+}
+else {
+    Write-Host "Example 1 - Condition NOT satisfied" -ForegroundColor Red
+}
+
+$fruit = "c"
+switch($fruit) {
+    a {"apple"}
+    b {"banana"}
+    c {"cherry"}
+}
 
 
+$nums = 1,2,3,4,5
+$nums | ForEach-Object{$_ * 2}
+$list | = 'a', 'b', 'c'
+$list | foreach {$_.ToUpper()}
+Get-ChildItem | ForEach-Object {$_.length / 1kb}
+ #forEach  
+foreach ($item in gci c:\ -Recurse){$item.name}
 
+foreach ($item in 1..5){$item * 2}
+
+#foreach array
+$teams = @("tiger", "pistons", "Red Wings", "Lions")
+foreach ($team in $teams){Detroit $team}
+
+$num = 0
+while ($num -lt 3) {
+    $num
+    $num++
+}
+
+
+$num = 0
+do {
+    $num
+    $num++
+}while($num -lt 3)
+
+#dountil
+$num = 0
+do {
+    $num
+    $num++
+}until($num -gt 3)
+
+#for loop
+for($num = 1; $num -le 3; $num++){$num}
+
+realcasescenario
+for ($i = 0; $i -le 255; $i++){
+    write-host 192.168.0.$i
+}
+
+#reading and writing to file
+set-Content -path .\example.txt -Value "A String"
+Get-Content .\example.txt
+cat .\wxample.txt
+"a new string" > .\example.txt
+"another one" >> .\example.txt
+Add-Content -Path .\example.txt -Value "another one what!!"
+Add-Content -Path .\example.txt -Value "another another one damn!!!"
+
+'" ODoyle Rules"' > Odoyle-script.ps1 ###how to call a script
+.\Odoyle-script.ps1 ### How to run a script
+
+
+@'
+"ODoyle Rules!"
+"More Code"
+get-service
+get-childitem
+'@ > Anotherdoyle-script.ps1
+.\Anotherdoyle-script.ps1
+
+#HASHTABLES HASHTABLES USE CURLY BRACE, Like Dictionaries 
+$mylist = @{First = "JOHN"; Last = "MAMA"; Mid ="T-PAIN" ; Age = 35}
+$myList
+$myLiSt["last"]
+$MyList["first","Mid", "Last"]
+$myList.Keys
+$myList.Values
+
+$list = @{ element1 = 5; array1 = 1..5; array2 = 6,7,8}
+$list
+$list.element1
+$list.remove("element1")
+
+$kaboom = [ordered] @{ Element1 = "BOOM" ; Element2 = "POW" ; Element3 = "BANG"}
+
+Practical Exercise
+$ARRAY = @( &{(Get-Random -Minimum -10 -Maximum 0)..(Get-Random -Minimum 1 -Maximum 20)} )
+
+[array]::Reverse($ARRAY)
+
+$employee1["Username"] = "mhopper001"###how to add a value in a key
+
+$employee1["job"] = "Software Lead" ###how to change a value in key 
+
+$employee3 = @{ First = "Alex" ; Last = "Moran" ; ID = 003 ; Job = "Software Developer"}
+
+$employee1[ "Status" ] = "Management"
+
+$employee2[ "Status" ] = "Intermediate"
+
+$employee3[ "Status" ] = "Entry Level"
+
+$line1 = "Do you have model number: MT5437 for john.doe@sharklasers.com?"
+$line2 = "What model number for john.doe@sharklasers.com?"
+$modelnum = "MT5437" ###ANS: $PATTERN = '[A-Za-z]{2}[0-9]{4}'
+$line1,$line2 | foreach-object |
+    if ($_. -match $PATTERN){
+        write-host $matches[0]":$_"
+    }
+    else{ 
+        write-host "No we Don't have: $_ in stock"
+} 
+
+look into $MATCH
+
+
+$procs = "notepad", "msedge", "mspaint"
+$procs | ForEach-Object { Start-Process $_ }
+Get-Process 
+foreach ($item in $procs) {Start-Process $item ; Stop-Process -Id (ps $item).Id}  
+
+
+$procs = "notepad", "msedge", "mspaint"
+$procs | ForEach-Object { Start-Process $_ }
+Get-Process
+
+foreach($proc in $procs){
+    Get-Process | Where-Object{$_.name -like $proc} |
+    ForEach-Object{Add-Content $file $_.Id} }
+
+Get-Content .\procs.txt | ForEach-Object{Stop-Process $_ }
+
+$file ="$pwd\procs.txt"
+foreach($proc in $procs){
+    Get-Process | Where-Object{$_.name -like $proc} | 
+    Format-table -Id
+
+foreach($proc in $procs){
+    Get-Process | Where-Object{$_.Name -like $Proc } |
+    ForEach-Object{Add-Content $file $_.Id } }
+
+Get-Content .\Procs.txt | ForEach-Object{Stop-Process -id $_}
+(Get-Process -Name <NAME>).Id
+
+### PS Remoting: remote to a different cosole 
+
+###String Manipulation###
+#in order to print quotation marks in string you have to back-tick (`) before the quotes OR cover the command with a single quotes EX: 'text "Quotation Marks"'
+$text1 = "One Terabyte is $(1TB / 1GB) Gigabytes"
+
+"Here is another nline of text" ###returns a newline at nline
+
+$text = @"
+Here is some text with `"quotes`".
+1TB equals $(1TB / 1GB) GB.
+Variables are resolved
+"$PWD"
+"@
+
+
+"{0:n3}" -f 123.45678 ###INSURES THAT IT WILL GO TO THE THIRD DECIMAL POINT
+"{0:d5}" -f 1 ###INSURE THAT THERE ARE FIVE DIGITS SHOWN
+
+Get-Service | Select-Object -First 10 | ForEach-Object{"The Service {0} is call '{1}': {2}" -f $_.name, $_.Displayname, $_.Status}
+
+
+"Hello John" -replace "John", "World"
+
+'server1,server2,server3' -replace '[,]', ':' ###replace every comma in '' with :
+
+"Hello Johnathon" -replace '[John]', "Toyota"
+
+"this is ipv6" -match 'IPv6'
+-match returns true or false if string, the array will turn the index number
+
+use regex cheat sheet for regex
+(qprocess) -replace '\s{2,}', ', ' | select -First 10
+
+'192.168.0.1' -replace '\d{1,3}$', '255'
+
+$list = 'comp1', 'comp10', 'comp13'
+$pattern = 'comp(\d{1,3})'
+$list -replace $pattern, 'computer$1'
+
+$list -replace $pattern, 'computer$1 (This changed from $0)'
+
+$profile -split '\.' ### splits line by period and newlines after split
+
+$profile -split '(?=\.)'### look behind, look ahead not-needed
+
+$profile -csplit '(?<=[a-z])(?=[A-Z])'###csplit is case sensitive split 
+
+"cat","dog" -join ""
+
+$env:username. '@', $env:computername, ".", $env:userdomain -join ""
+
+"powershell is awesome!" -match "\w+(\?|!)"
+
+$Matches[0]
+
+"10.0.0.22" -as [ipaddress] -as [bool]
 
 
 
