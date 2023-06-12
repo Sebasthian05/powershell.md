@@ -682,26 +682,75 @@ return Get-Date -UFormat $fmt
 
 
 Practical Questions 
-Q1
-Return $DollarSum = $Var1 + $Var2 + $Var3 + $Var4
-Q2
-$Content = get-content $file ### to grab a file in variable us Get-Content
-foreach ($i in $Content){
-    if ($i.StartsWith($line)) {
-    return $i
-    }
+Question 1 ### returns the value of arguments 
+function q1($var1, $var2, $var3, $var4){
+return $var1 + $var2 + $var3 + var4
+}
+Question 2 ### goes through nested arrays and search the first instance of the item matching
+function q2($arr, $rows, $cols, $key){
+foreach($i in $arr){ 
+        if($i[0] -eq $key) {
+             return $i[9] {
+             }
+        }
+ }
+Question 3 ###
+function q3{
+$vals = @()
+      do {
+         $val = read-host
+         if($val -ne -1) {
+            $vals += $val
+         }
+     } until($val -eq -1)
+     return $($vals | measure-object -Maximum).maximum
 }
 
+Question 4 ###changes the filename into a lined # text format
+function q4($filename,$whichline) { 
+$content = get-content $filename
+         return $content[$whichline]
+}
 
+Question 5 ### gets the path of $path and sorts by name ascending(default)
+function q5($path) {
+return get-childitem -path $path | sort-object -Property Name
+}
 
+Question 6 ### for each item in $input(read-Host) it adds to sum and returns it
+function q6{
+$sum = 0
+     foreach($a in $input) {
+            $sum += $a
+            }
+            return $sum
+}
+Question 7  ###returns all commands that have the noun process 
+function q7 {
+return get-command -noun process
+}
 
+Question 8 ### returns a string with the variable $adjective 
+function q8($adjective) { 
+return "powershell is $adjective"
+}
 
-
-
-
-
-
-
+Question 9 ###looks for if the ip address is valid by seeing if any octet is higher than 255 or lower than zero
+function q9($addr) {
+foreach($octet in $addr.split(".")) {
+        if([int]$octet -lt 0 or [int]$octet -gt 255) {
+              return $false
+              }
+       }
+      return $true
+}
+or 
+you can also use the [ipaddress] to see if the value equals a ip addr
+Question 10 ### gets the hash for $filepath to compare to the last hash with the -ne statement
+function q10 ($filepath,$lasthash) {
+$hash = get-filehash -Algorithm SHA256 $filepath
+        return $hash.Hash -ne $lasthash
+}
 
 
 
