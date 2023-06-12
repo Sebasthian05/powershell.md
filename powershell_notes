@@ -516,6 +516,148 @@ $Matches[0]
 "10.0.0.22" -as [ipaddress] -as [bool]
 
 
+function test-it { 'Hello World!' ### not persistant you have to save in the environment 
+}
+
+function test_me($value) {
+    if($value) {
+        Write-Host -ForegroundColor Green "True"
+    }
+    else {
+        Write-Host -ForegroundColor Red "False"
+}
+
+Function Add-TwoNumbers 
+{
+
+Param ([int]$a, [int]$b) ###Doesn't work
+        $a + $b
+}
+
+function test-me {
+    param(
+        [Parameter(Mandatory=$true, HelpMessage= 'Enter a name please')]
+        $var
+    )
+    "Your name is $var"
+}
+
+Function Convert-ToDollars {
+    param(
+        [Parameter(Mandatory, HelpMessage='Enter numbers of Euros.')]
+        [Double]
+        $Euro
+    )
+
+    $Dollar = $Euro * 1.4
+
+    }
+
+
+function check-user {
+    [cmdletBinding(DefaultParameterSetName='A')]
+    param (
+        [Parameter(ParameterSetName='A',Mandatory=$True)]
+        $name,
+
+        [Parameter(ParameterSetName='B',Mandatory=$true)]
+        $id,
+
+        [Parameter(ParameterSetName='C',Mandatory=$true)]
+        $username
+    )
+    $var = $PSCmdlet.ParameterSetName
+    "The $var parameter set was chosen"
+}
+
+Function Add-Soldier {
+    [CmdletBinding()]
+    param(
+        {Parameter(Mandatory=$True)][string]$Firstname,
+        {Parameter(Mandatory=$True)][string]$Lastname,
+        {Parameter(Mandatory=$True)][string]$rank,
+        {Parameter(Mandatory=$True)][string]$mos,
+    )
+
+}
+### another way to comma is <#
+
+how to write files somewhere
+Get-Process | Export-csv C:\Users\student\Desktop\getproc
+
+
+###-ErrorAction SilentlyContinue allows you to not see red 
+
+Get-CimInstance -Query "SELECT * FROM Win32_NetworkAdapterConfiguration WHERE IpEnabled = True"
+Get-WhereObject -Query "SELECT * FROM Win32_NetworkAdapterConfiguration WHERE IpEnabled = True"
+
+$CurrentYear = User-input
+$CurrentDay = Get-Date
+$Jan1 = Get-Date 1/1
+Function Get-OrdinalDate {get-date %Y, ((get-date) - (get-date 1/1)).days +1}
+
+
+Function Triple-Input($input)
+{
+    $input = Read-Host 'enter a value'
+    $input1 = Read-Host 'enter another value'
+    $input2 = Read-Host 'enter another another value'
+    $result = [int]$input * [int]$input1 * [int]$input2
+    return $result
+}     
+                        
+
+Practical Questions 
+Q1
+Return $DollarSum = $Var1 + $Var2 + $Var3 + $Var4
+Q2
+$Content = get-content $file ### to grab a file in variable us Get-Content
+foreach ($i in $Content){
+    if ($i.StartsWith($line)) {
+    return $i
+    }
+}
+
+Q3
+{
+return $arr -join ('/') ###to use -join you have to have parentheses on the outside 
+
+
+}
+
+Q4
+{
+  return Get-Process | Sort-Object -Property name -Descending ### returns get process sorted by name in descending order
+}
+
+Q5
+{ 
+foreach($i in $arr) {                     ###for each index in $arr check to see if the first index matches key and return to the 9th column, else return -1
+
+    if($i[0] -eq $key){
+        return $i[9]
+        }
+    }
+    return -1
+}
+
+
+
+Q6
+
+Process {
+        command <#EX:#> $sum = $var1 + $var2                   ###if it is says PROVIDED ON THE PIPELINE it means its an advanced function
+        }
+
+
+
+
+#IF GUNNY TELLS YOU TO RETURN A DATE IN A SPECIFIC FORMAT use UFORMAT
+
+#Custom date w/ -uformat
+
+$fmt = '%Y%m%d'
+return Get-Date -UFormat $fmt
 
 
 
@@ -539,6 +681,16 @@ $Matches[0]
 
 
 
+Practical Questions 
+Q1
+Return $DollarSum = $Var1 + $Var2 + $Var3 + $Var4
+Q2
+$Content = get-content $file ### to grab a file in variable us Get-Content
+foreach ($i in $Content){
+    if ($i.StartsWith($line)) {
+    return $i
+    }
+}
 
 
 
